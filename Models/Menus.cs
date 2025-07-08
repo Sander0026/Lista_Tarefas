@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lista_Tarefas.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace Lista_Tarefas.Models
 {
-    internal class Menus
+    public class Menus
     {
-        public static List<Tarefa> listaTarefas = new List<Tarefa>();
+        
+        private readonly TarefaRepository _tarefaRepository = new TarefaRepository();
+        
         public void DisplayMenu()
         {
+            
+
             string opcao = " ";
             while (opcao != "0")
             {
@@ -35,13 +40,16 @@ namespace Lista_Tarefas.Models
 
                     case "1":
                         
-                        while (true)
-                        { 
+                       
                             Console.WriteLine("Informe a tarefa: ");
                             String titulo = Console.ReadLine();
                         
-                            if(Tarefa.CriarTarefa(titulo))
+                            if(!string.IsNullOrEmpty(titulo))
                             {
+                                var tarefa = new Tarefa();
+                                tarefa.Titulo = titulo;
+                                tarefa.HoraData = DateTime.Now;
+                                _tarefaRepository.CriarTarefa(tarefa);
                                 Console.WriteLine("Tarefa criada com sucesso.");
                                 Console.WriteLine("");
                                 break;
@@ -50,16 +58,30 @@ namespace Lista_Tarefas.Models
                             {
                                 Console.WriteLine("A tarefa nao pode ficar em branco!");
                             }
-                        }    
+                           
 
                         break;
 
                     case "2":
 
-                        if(listaTarefas.Count > 0)
+                        var listaTarefas = _tarefaRepository.ObterTodas();
+
+                        if (listaTarefas.Count > 0)
                         {
-                            string dadosTarefa =Tarefa.ExibirListaTarefas(listaTarefas);
-                            Console.WriteLine(dadosTarefa);
+                            var texto = new StringBuilder();
+
+                            texto.AppendLine("---------------------Lista de Tarefas--------------------------");
+
+                            foreach (var itemTarefa in listaTarefas)
+                            {
+                                texto.AppendLine("---------------------------------------------------------------");
+                                texto.AppendLine($"\nID: {itemTarefa.Id}");
+                                texto.AppendLine($"Titulo: {itemTarefa.Titulo}");
+                                texto.AppendLine($"Concluida: {(itemTarefa.Concluido ? "Sim" : "Não")}");
+                                texto.AppendLine($"Data: {itemTarefa.HoraData: dd/MM/yyyy hh:mm}");
+                                texto.AppendLine($"---------------------------------------------------------------");
+                            }
+                            Console.WriteLine(texto);
                             break;
                         }
                         else
@@ -73,20 +95,20 @@ namespace Lista_Tarefas.Models
                         Console.WriteLine("Qual tarefa que sera editada?");
                         string resposta = Console.ReadLine();
 
-                        Tarefa tarefaEcontrada = Tarefa.BuscarTarefa(resposta);
-                        int indexTarefa = listaTarefas.IndexOf(tarefaEcontrada);
+                        Tarefa tarefaEcontrada = _tarefaRepository.BuscarPorTitulo(resposta);
 
+                        
                         if(tarefaEcontrada != null )
                         {
                             Console.WriteLine("Tarefa localizada.");
                             Console.WriteLine("Informe o novo nome da tarefa: ");
                             string novoTitulo = Console.ReadLine();
 
-                            Tarefa novaTarefa = new Tarefa();
+                            Tarefa novaTarefa = tarefaEcontrada;
                             if(novoTitulo != null )
                             {
                                 novaTarefa.Titulo = novoTitulo;
-                                if(Tarefa.EditarTarefa(indexTarefa, novaTarefa))
+                                if(_tarefaRepository.EditarTarefa(novaTarefa))
                                 {
                                     Console.WriteLine("Tarefa atualizada com sucesso");
                                 }
@@ -114,8 +136,8 @@ namespace Lista_Tarefas.Models
 
                         if (tituloTarefa != null)
                         {
-                            Tarefa tarefaLocalizada =Tarefa.BuscarTarefa(tituloTarefa);
-                            Tarefa.DeletarTarefa(tarefaLocalizada);
+                            var tarefa = _tarefaRepository.BuscarPorTitulo(tituloTarefa);
+                            _tarefaRepository.DeletarTarefa(tarefa);
                             Console.WriteLine("Tarefa deletado com sucesso");
                         }
 
@@ -123,15 +145,18 @@ namespace Lista_Tarefas.Models
 
                     case "5":
 
+                        listaTarefas = _tarefaRepository.ObterTodas();
+
                         Console.WriteLine("Qual Tarefa foi concluida?");
                         string tarefaConcluida = Console.ReadLine();
 
-                        Tarefa tarefaLocalizadaConcluida = Tarefa.BuscarTarefa(tarefaConcluida);
+                        Tarefa tarefaLocalizadaConcluida = _tarefaRepository.BuscarPorTitulo(tarefaConcluida);
+
                         int indexTarefaConcluida = listaTarefas.IndexOf(tarefaLocalizadaConcluida);
 
                         if (tarefaLocalizadaConcluida != null)
                         {
-                            Tarefa novaTarefa = new Tarefa();
+                            Tarefa novaTarefa = tarefaLocalizadaConcluida;
 
                             Console.WriteLine("1 - Concluida");
                             Console.WriteLine("2 - Não concluida");
@@ -140,17 +165,15 @@ namespace Lista_Tarefas.Models
                             switch(op)
                             {
                                 case "1":
-                                    novaTarefa = tarefaLocalizadaConcluida;
-                                    novaTarefa.Concluida = true;
+                                    novaTarefa.Concluido = true;
                                     break;
 
                                 case "2":
-                                    novaTarefa = tarefaLocalizadaConcluida;
-                                    novaTarefa.Concluida = false;
+                                    novaTarefa.Concluido = false;
                                     break;
                             }
 
-                            Tarefa.EditarTarefa(indexTarefaConcluida, novaTarefa);
+                            _tarefaRepository.EditarTarefa(novaTarefa);
                         }
 
                         break;

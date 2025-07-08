@@ -7,15 +7,15 @@ using Lista_Tarefas.Models;
 
 namespace Lista_Tarefas.Models
 {
-    internal class Tarefa
+    public class Tarefa
     {
         public int Id { get; set;}
         public string Titulo { get; set;}
-        public bool Concluida { get; set;}
+        public bool Concluido { get; set;}
 
         public DateTime HoraData { get; set;}
 
-        public static int GeraId()
+        /*public static int GeraId()
         {
             int maior = 0;
 
@@ -104,7 +104,7 @@ namespace Lista_Tarefas.Models
         {
             Menus.listaTarefas.Remove(tarefa);
         }
-
+        */
        
     }
 }
