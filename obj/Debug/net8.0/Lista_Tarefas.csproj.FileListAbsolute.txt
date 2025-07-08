@@ -1,0 +1,14 @@
+D:\Projetos_Pessoais\Lista_Tarefas\bin\Debug\net8.0\Lista_Tarefas.exe
+D:\Projetos_Pessoais\Lista_Tarefas\bin\Debug\net8.0\Lista_Tarefas.deps.json
+D:\Projetos_Pessoais\Lista_Tarefas\bin\Debug\net8.0\Lista_Tarefas.runtimeconfig.json
+D:\Projetos_Pessoais\Lista_Tarefas\bin\Debug\net8.0\Lista_Tarefas.dll
+D:\Projetos_Pessoais\Lista_Tarefas\bin\Debug\net8.0\Lista_Tarefas.pdb
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.AssemblyInfoInputs.cache
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.AssemblyInfo.cs
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.csproj.CoreCompileInputs.cache
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.dll
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\refint\Lista_Tarefas.dll
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.pdb
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\Lista_Tarefas.genruntimeconfig.cache
+D:\Projetos_Pessoais\Lista_Tarefas\obj\Debug\net8.0\ref\Lista_Tarefas.dll
